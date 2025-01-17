@@ -1,0 +1,103 @@
+using System;
+using System.Text;
+
+public class HelloWorld
+{
+    //Returns the position of the first character corresponding to this number.
+    public static int GetCorrespondingCharPointer(int number)
+    {
+        if(number > 7)
+        {
+            return  (number * 3) - 2;
+        }
+        else
+        {
+            return (number * 3) - 3;
+        }
+    }
+    
+    public static String OldPhonePad(string inputString ) 
+    {
+        const string numpadAlphabets = "&'(abcdefghijklmnopqrstuvwxyz";
+        
+        char[] numpadCharacters = numpadAlphabets.ToCharArray();
+        StringBuilder sb = new StringBuilder();
+        char[] tempCharArray = inputString.ToCharArray();
+        int stringPointer = 0;  //The pointer to the character which needs to be appended.
+        int currentNumber;
+        int nextNumber = 0;
+        
+        for(int pointer = 0;pointer <= inputString.Length-1; pointer++)
+            {
+                if(tempCharArray[pointer] =='*' || tempCharArray[pointer] == ' ')
+                {
+                    continue;
+                }
+                
+                //At this point, this is a number and not a special character.
+                currentNumber = int.Parse(tempCharArray[pointer].ToString());
+                
+                if(stringPointer == 0)
+                {
+                    //This will only execute once on the first character.
+                    stringPointer = GetCorrespondingCharPointer(currentNumber);
+                }
+                
+                if(tempCharArray[pointer + 1] == '*' || tempCharArray[pointer +1] == ' ')
+                {
+                    if(tempCharArray[pointer + 1] == ' ')
+                    {
+                        sb.Append(numpadCharacters[stringPointer]);
+                    }
+                    
+                    if(tempCharArray[pointer+ 2] == '#')
+                    {   
+                        //This is the end of this string.
+                        break;
+                    }
+                    else
+                    {
+                        //There is a number after this character.
+                        nextNumber = int.Parse(tempCharArray[pointer + 2].ToString());
+                        stringPointer = GetCorrespondingCharPointer(nextNumber);
+                    }
+                    continue;
+                }
+                else if(tempCharArray[pointer + 1] == '#' && tempCharArray[pointer] != '*')
+                {
+                    //End of the input. Append the last character and exit.
+                    sb.Append(numpadCharacters[stringPointer]);
+                    break;
+                }
+
+                
+                //Get the next number.
+                if(!int.TryParse(tempCharArray[pointer + 1].ToString(), out nextNumber))
+                {
+                    continue;
+                }
+                
+                if(currentNumber == nextNumber)
+                {
+                    //Same number. Increment the counter to next numpad character.
+                    stringPointer++;
+                    continue;
+                }
+                else
+                {
+                    sb.Append(numpadCharacters[stringPointer]);
+                    stringPointer = GetCorrespondingCharPointer(nextNumber);
+                }
+            }
+            
+            return sb.ToString();
+    }
+    
+    public static void Main(string[] args)
+    {
+        Console.WriteLine(OldPhonePad("4433555 555*7#"));
+        Console.WriteLine(OldPhonePad("4433555 555666#"));
+        Console.WriteLine(OldPhonePad("8 88777444666*664#"));
+        Console.WriteLine(OldPhonePad("77778666777999#"));
+    }
+}
