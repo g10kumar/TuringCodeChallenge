@@ -4,4 +4,4 @@ A foreach loop is used to read each character from the input string.
 For each number, if its same as previous number, then the pointer is incremented otherwise, the current character corresponding to the current number is appended to the string bulilder.  
 If the cuurent character is a special character, then a space means appending the current character to the string builder. An asterisk means, skipping this character. While the pound sign means appending whatever is currently there in the stored character and endign the foreach loop.  
 
-**A running version of the code can be found here.** [dotnetfiddle link](https://dotnetfiddle.net/Rp5Put)
+**A running version of the code can be found here.** [dotnetfiddle link](https://dotnetfiddle.net/0347OX)
