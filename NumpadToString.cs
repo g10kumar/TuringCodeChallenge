@@ -22,7 +22,7 @@ public class NumpadToString
     public static String OldPhonePad(string inputString) 
     {
         char[] numpadCharacters = numpadAlphabets.ToCharArray();
-        int previousNumber = default ,stringPointer = default, currentNumber;
+        int previousNumber = default ,charPointer = default, currentNumber;
         StringBuilder sb = new StringBuilder();
         
         foreach(char i in inputString.ToCharArray())
@@ -31,15 +31,15 @@ public class NumpadToString
             {
                 if(currentNumber == previousNumber)
                 {
-                    stringPointer++;
+                    charPointer++;
                 }
                 else
                 {
                     if(previousNumber > 0)
                     {
-                        sb.Append(numpadCharacters[stringPointer]);
+                        sb.Append(numpadCharacters[charPointer]);
                     }
-                    stringPointer = GetCorrespondingCharPointer(currentNumber);
+                    charPointer = GetCorrespondingCharPointer(currentNumber);
                     previousNumber = currentNumber;
                 }
             }
@@ -47,12 +47,12 @@ public class NumpadToString
             {
                 if(i == ' ')
                 {
-                    sb.Append(numpadCharacters[stringPointer]);
+                    sb.Append(numpadCharacters[charPointer]);
                     previousNumber = 0;
                 }
                 else if(i == '#' && previousNumber > 0)
                 {
-                    sb.Append(numpadCharacters[stringPointer]);
+                    sb.Append(numpadCharacters[charPointer]);
                 }
                 else if(i == '*')
                 {
